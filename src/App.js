@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
+import Navigation from "./components/Navigation";
+import HomePage from "./components/Home";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ContactForm from "./components/ContactForm";
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <React.Fragment>
+        <Navigation toggleModal={toggleModal} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+        {isModalOpen && <ContactForm onClose={toggleModal} />}
+      </React.Fragment>
+    </Router>
   );
 }
 
